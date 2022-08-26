@@ -12,7 +12,7 @@ module YARD
           comments = comments.split(/\r?\n/).map do |line|
             line.gsub!(%r{^\s*/?\*/?}, '')
             line.gsub!(%r{\*/\s*$}, '')
-            if line =~ /^\s*$/
+            if /^\s*$/.match?(line)
               next if spaces.nil?
               next ""
             end
@@ -74,7 +74,7 @@ module YARD
             when /^\w+\s+(#{CodeObjects::METHODMATCH})\s+(\w+)/
               signature = "#{$1}(#{$2})"
             end
-            break unless signature =~ /^#{CodeObjects::METHODNAMEMATCH}/
+            break unless /^#{CodeObjects::METHODNAMEMATCH}/.match?(signature)
             signature = signature.rstrip
             overloads << "@overload #{signature}"
             overloads << "  @yield [#{blkparams}]" if blk
@@ -85,7 +85,7 @@ module YARD
         end
 
         def parse_types(types)
-          if types =~ /true or false/
+          if /true or false/.match?(types)
             ["Boolean"]
           else
             (types || "").split(/,| or /).map do |t|

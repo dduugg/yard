@@ -336,7 +336,7 @@ module YARD
           :href => url,
           :title => h(title)
         ).update(params)
-        params[:target] ||= '_parent' if url =~ %r{^(\w+)://}
+        params[:target] ||= '_parent' if %r{^(\w+)://}.match?(url)
         "<a #{tag_attrs(params)}>#{title}</a>".gsub(/[\r\n]/, ' ')
       end
 

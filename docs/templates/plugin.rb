@@ -50,7 +50,7 @@ module TagTemplateHelper
       when /^tag:(\S+)/
         tag_name = $1
         suffix = "tag"
-        if tag_name =~ /^!/
+        if /^!/.match?(tag_name)
           tag_name = tag_name[1..-1]
           suffix = "directive"
         end

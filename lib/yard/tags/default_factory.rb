@@ -106,7 +106,7 @@ module YARD
         raise TagFormatError if text.nil? || text.empty?
         title = nil
         desc = nil
-        if text =~ /\A[ \t]\n/
+        if /\A[ \t]\n/.match?(text)
           desc = text
         else
           text = text.split(/\r?\n/)

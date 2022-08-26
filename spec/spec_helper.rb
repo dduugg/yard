@@ -84,7 +84,7 @@ def docspec(objname = self.class.description, klass = self.class.described_type)
   end
 
   # Get the object
-  objname = klass.name + objname if objname =~ /^[^A-Z]/
+  objname = klass.name + objname if /^[^A-Z]/.match?(objname)
   obj = Registry.at(objname)
   raise "Cannot find object #{objname} described by spec." unless obj
   raise "#{obj.path} has no @example tags to spec." unless obj.has_tag? :example

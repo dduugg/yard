@@ -4,7 +4,7 @@ module YARD
   #
   # @private
   class StubProxy
-    instance_methods.each {|m| undef_method(m) unless m.to_s =~ /^__|^object_id$/ }
+    instance_methods.each {|m| undef_method(m) unless /^__|^object_id$/.match?(m.to_s) }
 
     def _dump(_depth) @path end
     def self._load(str) new(str) end
@@ -68,9 +68,9 @@ module YARD
           case object
           when String, Symbol
             object = object.to_s
-            if object =~ /#/
+            if /#/.match?(object)
               object += '_i'
-            elsif object =~ /\./
+            elsif /\./.match?(object)
               object += '_c'
             end
             object.split(/::|\.|#/).map do |p|

@@ -18,7 +18,7 @@ module YARD
           @docstring = @docstring.join("\n") if @docstring.is_a?(Array)
 
           attaching = false
-          if @docstring =~ /^@!?macro\s+\[[^\]]*attach/
+          if /^@!?macro\s+\[[^\]]*attach/.match?(@docstring)
             register_docstring(nil)
             @docstring = ""
             attaching = true
@@ -36,7 +36,7 @@ module YARD
           end
 
           # ignore DSL definitions if @method/@attribute directive is used
-          if @docstring =~ /^@!?(method|attribute)\b/
+          if /^@!?(method|attribute)\b/.match?(@docstring)
             return register_docstring(nil)
           end
 
@@ -58,7 +58,7 @@ module YARD
 
         def method_name
           name = call_params.first || ""
-          if name =~ /^#{CodeObjects::METHODNAMEMATCH}$/
+          if /^#{CodeObjects::METHODNAMEMATCH}$/.match?(name)
             name
           else
             raise UndocumentableError, "method, missing name"

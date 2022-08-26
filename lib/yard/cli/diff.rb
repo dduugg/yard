@@ -148,7 +148,7 @@ module YARD
         end
 
         # Look for local .gem file
-        gemfile += '.gem' unless gemfile =~ /\.gem$/
+        gemfile += '.gem' unless /\.gem$/.match?(gemfile)
         log.info "Searching for local gem file #{gemfile}"
         if File.exist?(gemfile)
           File.open(gemfile, 'rb') do |io|

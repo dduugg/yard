@@ -55,7 +55,7 @@ class YARD::Handlers::Ruby::Legacy::MethodHandler < YARD::Handlers::Ruby::Legacy
     elsif mscope == :class && obj.docstring.blank? && %w(inherited included
         extended method_added method_removed method_undefined).include?(meth)
       obj.add_tag(YARD::Tags::Tag.new(:private, nil))
-    elsif meth.to_s =~ /\?$/
+    elsif /\?$/.match?(meth.to_s)
       if obj.tag(:return) && (obj.tag(:return).types || []).empty?
         obj.tag(:return).types = ['Boolean']
       elsif obj.tag(:return).nil?
@@ -78,7 +78,7 @@ class YARD::Handlers::Ruby::Legacy::MethodHandler < YARD::Handlers::Ruby::Legacy
 
     info = obj.attr_info
     if info
-      if meth.to_s =~ /=$/ # writer
+      if /=$/.match?(meth.to_s) # writer
         info[:write] = obj if info[:read]
       elsif info[:write]
         info[:read] = obj

@@ -423,7 +423,7 @@ module YARD
       # @param check_exists [Boolean] whether the file should exist on disk
       # @return [Boolean] whether the file is allowed to be used
       def extra_file_valid?(file, check_exists = true)
-        if file =~ %r{^(?:\.\./|/)}
+        if %r{^(?:\.\./|/)}.match?(file)
           log.warn "Invalid file: #{file}"
           false
         elsif check_exists && !File.file?(file)

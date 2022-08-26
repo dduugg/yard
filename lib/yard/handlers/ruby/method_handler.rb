@@ -39,7 +39,7 @@ class YARD::Handlers::Ruby::MethodHandler < YARD::Handlers::Ruby::Base
     elsif mscope == :class && obj.docstring.blank? && %w(inherited included
         extended method_added method_removed method_undefined).include?(meth)
       obj.add_tag(YARD::Tags::Tag.new(:private, nil))
-    elsif meth.to_s =~ /\?$/
+    elsif /\?$/.match?(meth.to_s)
       add_predicate_return_tag(obj)
     end
 
@@ -56,7 +56,7 @@ class YARD::Handlers::Ruby::MethodHandler < YARD::Handlers::Ruby::Base
 
     info = obj.attr_info
     if info
-      if meth.to_s =~ /=$/ # writer
+      if /=$/.match?(meth.to_s) # writer
         info[:write] = obj if info[:read]
       elsif info[:write]
         info[:read] = obj

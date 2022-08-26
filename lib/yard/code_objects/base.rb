@@ -189,7 +189,7 @@ module YARD
         def new(namespace, name, *args, &block)
           raise ArgumentError, "invalid empty object name" if name.to_s.empty?
           if namespace.is_a?(ConstantObject)
-            unless namespace.value =~ /\A#{NAMESPACEMATCH}\Z/
+            unless /\A#{NAMESPACEMATCH}\Z/.match?(namespace.value)
               raise Parser::UndocumentableError, "constant mapping"
             end
 
@@ -370,7 +370,7 @@ module YARD
       #   @return +value+
       #   @see #[]=
       def method_missing(meth, *args, &block)
-        if meth.to_s =~ /=$/
+        if /=$/.match?(meth.to_s)
           self[meth.to_s[0..-2]] = args.first
         elsif instance_variable_get("@#{meth}")
           self[meth]
@@ -477,7 +477,7 @@ module YARD
         end
         return other unless namespace
         common = [path, other].join(" ").match(/^(\S*)\S*(?: \1\S*)*$/)[1]
-        common = path unless common =~ /(\.|::|#)$/
+        common = path unless /(\.|::|#)$/.match?(common)
         common = common.sub(/(\.|::|#)[^:#\.]*?$/, '') if same_parent
         suffix = %w(. :).include?(common[-1, 1]) || other[common.size, 1] == '#' ?
           '' : '(::|\.)'

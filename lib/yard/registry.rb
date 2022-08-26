@@ -56,7 +56,7 @@ module YARD
 
         result = nil
         specs.reverse.each do |spec|
-          if gem =~ /^yard-doc-/
+          if /^yard-doc-/.match?(gem)
             path = File.join(spec.full_gem_path, DEFAULT_YARDOC_FILE)
             result = File.exist?(path) && !for_writing ? path : nil
             result ? break : next

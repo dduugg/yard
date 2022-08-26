@@ -100,7 +100,7 @@ module YARD
           def accept_paragraph(*args)
             par = args.last
             text = par.respond_to?(:txt) ? par.txt : par.text
-            @hyperlink = text =~ /\{(https?:|mailto:|link:|www\.)/ ? true : false
+            @hyperlink = /\{(https?:|mailto:|link:|www\.)/.match?(text) ? true : false
             super
           end
         end

@@ -14,7 +14,7 @@ module YARD
               case line
               when /^\s*$/; "\n\n"
               when /^\s+\S/, /^=/; line + "\n"
-              else; line + (text[i + 1] =~ /^\s+\S/ ? "\n" : " ")
+              else; line + (/^\s+\S/.match?(text[i + 1]) ? "\n" : " ")
               end
           end
           out

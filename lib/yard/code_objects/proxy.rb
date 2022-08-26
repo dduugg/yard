@@ -34,7 +34,7 @@ module YARD
       def initialize(namespace, name, type = nil)
         namespace = Registry.root if !namespace || namespace == :root
 
-        if name =~ /^#{NSEPQ}/
+        if /^#{NSEPQ}/.match?(name)
           namespace = Registry.root
           name = name[2..-1]
         end
@@ -58,7 +58,7 @@ module YARD
         self.type = type
 
         if @namespace.is_a?(ConstantObject)
-          unless @namespace.value =~ /\A#{NAMESPACEMATCH}\Z/
+          unless /\A#{NAMESPACEMATCH}\Z/.match?(@namespace.value)
             raise Parser::UndocumentableError, "constant mapping for " +
               "#{@origname} (type=#{type.inspect})"
           end
@@ -75,7 +75,7 @@ module YARD
         # If the name begins with "::" (like "::String")
         # this is definitely a root level object, so
         # remove the namespace and attach it to the root
-        if @name =~ /^#{NSEPQ}/
+        if /^#{NSEPQ}/.match?(@name)
           @name.gsub!(/^#{NSEPQ}/, '')
           @namespace = Registry.root
         end
@@ -229,12 +229,12 @@ module YARD
         if @namespace.root?
           (@imethod ? ISEP : "") + name.to_s
         elsif @origname
-          if @origname =~ CONSTANTSTART
+          if CONSTANTSTART.match?(@origname)
             @origname
           else
             [namespace.path, @origname].join
           end
-        elsif name.to_s =~ CONSTANTSTART
+        elsif CONSTANTSTART.match?(name.to_s)
           name.to_s
         else # class meth?
           [namespace.path, name.to_s].join(CSEP)

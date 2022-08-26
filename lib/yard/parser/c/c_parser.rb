@@ -75,16 +75,16 @@ module YARD
           start = @index
           line = @line
           decl = consume_until(/[{;]/)
-          return nil if decl =~ /\A\s*\Z/
+          return nil if /\A\s*\Z/.match?(decl)
           # Skip C++ namespace - treat content as top level statement.
-          return nil if decl =~ /\A(namespace)/
+          return nil if /\A(namespace)/.match?(decl)
           statement = ToplevelStatement.new(nil, @file, line)
           @statements << statement
           attach_comment(statement)
           stmts = nil
           if prevchar == '{'
             stmts = consume_body_statements
-            if decl =~ /\A(typedef|enum|class|#{struct}|union)/
+            if /\A(typedef|enum|class|#{struct}|union)/.match?(decl)
               consume_until(';')
             end
           end
@@ -130,7 +130,7 @@ module YARD
         end
 
         def consume_whitespace
-          advance_loop { nextline if char == "\n"; break if char =~ /\S/; advance }
+          advance_loop { nextline if char == "\n"; break if /\S/.match?(char); advance }
         end
 
         def consume_comment(add_comment = true)
@@ -182,9 +182,9 @@ module YARD
             when ')'; advance; bracket_level -= 1
             else advance
             end
-            @newline = false if chr !~ /\s/
+            @newline = false if !/\s/.match?(chr)
 
-            if chr =~ end_char
+            if chr&.match?(end_char)
               break if chr == '{' || chr == '('
               break if bracket_level <= 0 && brace_level <= 0
             end

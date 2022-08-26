@@ -125,9 +125,9 @@ module YARD
           when :module
             ModuleNode
           else
-            if type.to_s =~ /_ref\Z/
+            if /_ref\Z/.match?(type.to_s)
               ReferenceNode
-            elsif type.to_s =~ /_literal\Z/
+            elsif /_literal\Z/.match?(type.to_s)
               LiteralNode
             elsif KEYWORDS.key?(type)
               KeywordNode

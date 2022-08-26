@@ -36,7 +36,7 @@ private
 
 def parse_top_comments_from_file
   return unless defined?(@readme) && @readme
-  return @readme.contents unless @readme.filename =~ /\.rb$/
+  return @readme.contents unless /\.rb$/.match?(@readme.filename)
   data = ""
   tokens = TokenList.new(@readme.contents)
   tokens.each do |token|

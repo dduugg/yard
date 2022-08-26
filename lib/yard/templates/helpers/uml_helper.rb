@@ -36,9 +36,9 @@ module YARD
         data.split(/\n/).map do |line|
           line.gsub!(/^\s*/, '')
           next if line.empty?
-          indent -= 1 if line =~ /^\s*\}\s*$/
+          indent -= 1 if /^\s*\}\s*$/.match?(line)
           line = (' ' * (indent * 2)) + line
-          indent += 1 if line =~ /\{\s*$/
+          indent += 1 if /\{\s*$/.match?(line)
           line
         end.compact.join("\n") + "\n"
       end

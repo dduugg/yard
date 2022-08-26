@@ -33,8 +33,8 @@ module YARD
         def to_s(singular = true)
           if name[0, 1] == "#"
             singular ? "an object that responds to #{name}" : "objects that respond to #{name}"
-          elsif name[0, 1] =~ /[A-Z]/
-            singular ? "a#{name[0, 1] =~ /[aeiou]/i ? 'n' : ''} " + name : "#{name}#{name[-1, 1] =~ /[A-Z]/ ? "'" : ''}s"
+          elsif /[A-Z]/.match?(name[0, 1])
+            singular ? "a#{/[aeiou]/i.match?(name[0, 1]) ? 'n' : ''} " + name : "#{name}#{/[A-Z]/.match?(name[-1, 1]) ? "'" : ''}s"
           else
             name
           end
@@ -64,14 +64,14 @@ module YARD
         end
 
         def to_s(_singular = true)
-          "a#{name[0, 1] =~ /[aeiou]/i ? 'n' : ''} #{name} of (" + list_join(types.map {|t| t.to_s(false) }) + ")"
+          "a#{/[aeiou]/i.match?(name[0, 1]) ? 'n' : ''} #{name} of (" + list_join(types.map {|t| t.to_s(false) }) + ")"
         end
       end
 
       # @private
       class FixedCollectionType < CollectionType
         def to_s(_singular = true)
-          "a#{name[0, 1] =~ /[aeiou]/i ? 'n' : ''} #{name} containing (" + types.map(&:to_s).join(" followed by ") + ")"
+          "a#{/[aeiou]/i.match?(name[0, 1]) ? 'n' : ''} #{name} containing (" + types.map(&:to_s).join(" followed by ") + ")"
         end
       end
 
@@ -86,7 +86,7 @@ module YARD
         end
 
         def to_s(_singular = true)
-          "a#{name[0, 1] =~ /[aeiou]/i ? 'n' : ''} #{name} with keys made of (" +
+          "a#{/[aeiou]/i.match?(name[0, 1]) ? 'n' : ''} #{name} with keys made of (" +
             list_join(key_types.map {|t| t.to_s(false) }) +
             ") and values of (" + list_join(value_types.map {|t| t.to_s(false) }) + ")"
         end

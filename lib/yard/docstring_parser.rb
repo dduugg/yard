@@ -141,7 +141,7 @@ module YARD
 
       (content + ['']).each_with_index do |line, index|
         indent = line[/^\s*/].length
-        empty = (line =~ /^\s*$/ ? true : false)
+        empty = (/^\s*$/.match?(line) ? true : false)
         done = content.size == index
 
         if tag_name && (((indent < orig_indent && !empty) || done ||
@@ -169,7 +169,7 @@ module YARD
         elsif tag_name && indent >= orig_indent && !empty
           orig_indent = indent if orig_indent == 0
           # Extra data added to the tag on the next line
-          last_empty = last_line =~ /^[ \t]*$/ ? true : false
+          last_empty = /^[ \t]*$/.match?(last_line) ? true : false
 
           tag_buf << '' if last_empty
           tag_buf << line.gsub(/^[ \t]{#{orig_indent}}/, '')
@@ -334,7 +334,7 @@ module YARD
       parser.tags.each_with_index do |tag, i|
         next if tag.is_a?(Tags::RefTagList) # we don't handle this yet
         next unless tag.tag_name == "see"
-        next unless "#{tag.name}#{tag.text}" =~ /\A\{.*\}\Z/
+        next unless /\A\{.*\}\Z/.match?("#{tag.name}#{tag.text}")
         infile_info = "\n    in file `#{parser.object.file}' " \
                       "near line #{parser.object.line}"
         log.warn "@see tag (##{i + 1}) should not be wrapped in {} " \

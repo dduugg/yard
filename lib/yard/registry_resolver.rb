@@ -105,7 +105,7 @@ module YARD
       result = namespace.root? && validate(@registry.at(path), type)
       return result if result
 
-      if path =~ starts_with_separator_match
+      if path&.match?(starts_with_separator_match)
         return validate(@registry.at(namespace.path + path), type)
       end
 

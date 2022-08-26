@@ -114,7 +114,7 @@ module YARD::CodeObjects
     def is_attribute?
       info = attr_info
       if info
-        read_or_write = name.to_s =~ /=$/ ? :write : :read
+        read_or_write = /=$/.match?(name.to_s) ? :write : :read
         info[read_or_write] ? true : false
       else
         false

@@ -38,7 +38,7 @@ class YARD::Handlers::Ruby::Legacy::ClassHandler < YARD::Handlers::Ruby::Legacy:
 
       # Allow constants to reference class names
       if ConstantObject === proxy
-        if proxy.value =~ /\A#{NAMESPACEMATCH}\Z/
+        if /\A#{NAMESPACEMATCH}\Z/.match?(proxy.value)
           proxy = Proxy.new(namespace, proxy.value)
         else
           raise YARD::Parser::UndocumentableError, "constant class reference '#{classname}'"
@@ -47,7 +47,7 @@ class YARD::Handlers::Ruby::Legacy::ClassHandler < YARD::Handlers::Ruby::Legacy:
 
       if classname == "self"
         parse_block(:namespace => namespace, :scope => :class)
-      elsif classname[0, 1] =~ /[A-Z]/
+      elsif /[A-Z]/.match?(classname[0, 1])
         register ClassObject.new(namespace, classname) if Proxy === proxy
         parse_block(:namespace => proxy, :scope => :class)
       else
@@ -94,7 +94,7 @@ class YARD::Handlers::Ruby::Legacy::ClassHandler < YARD::Handlers::Ruby::Legacy:
 
   def parse_struct_subclass(klass, superclass_def)
     # Bounce if there's no parens
-    return unless superclass_def =~ /O?Struct\.new\((.*?)\)/
+    return unless /O?Struct\.new\((.*?)\)/.match?(superclass_def)
     members = extract_parameters(superclass_def)
     create_attributes(klass, members)
   end

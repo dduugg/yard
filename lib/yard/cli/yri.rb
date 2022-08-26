@@ -50,7 +50,7 @@ module YARD
       def run(*args)
         optparse(*args)
 
-        if ::RbConfig::CONFIG['host_os'] =~ /mingw|win32/
+        if /mingw|win32/.match?(::RbConfig::CONFIG['host_os'])
           @serializer ||= YARD::Serializers::StdoutSerializer.new
         else
           @serializer ||= YARD::Serializers::ProcessSerializer.new('less')
@@ -165,7 +165,7 @@ module YARD
           yfile = Registry.yardoc_file_for_gem(spec.name)
           next if yfile.nil?
 
-          if spec.name =~ /^yard-doc-/
+          if /^yard-doc-/.match?(spec.name)
             gem_paths.unshift(yfile)
           else
             gem_paths.push(yfile)

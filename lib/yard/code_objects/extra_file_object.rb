@@ -113,7 +113,7 @@ module YARD::CodeObjects
       end
       contents
     rescue ArgumentError => e
-      raise unless e.message =~ /invalid byte sequence/
+      raise unless /invalid byte sequence/.match?(e.message)
 
       if retried
         # This should never happen.

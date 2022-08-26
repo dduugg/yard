@@ -150,7 +150,7 @@ module YARD
                 #{node_class}.new(:list, args, :listchar => charno...charno, :listline => lineno..lineno)
               end
             eof
-          elsif /_add(_.+)?\z/ =~ event.to_s
+          elsif /_add(_.+)?\z/.match?(event.to_s)
             module_eval(<<-eof, __FILE__, __LINE__ + 1)
               begin; undef on_#{event}; rescue NameError; end
               def on_#{event}(list, item)
@@ -539,7 +539,7 @@ module YARD
             if comment =~ SourceParser::SHEBANG_LINE && !@encoding_line
               @shebang_line = comment
               not_comment = true
-            elsif comment =~ SourceParser::ENCODING_LINE
+            elsif SourceParser::ENCODING_LINE.match?(comment)
               @encoding_line = comment
               not_comment = true
             elsif comment =~ SourceParser::FROZEN_STRING_LINE

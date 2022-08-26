@@ -157,7 +157,7 @@ module YARD
     def self.load_plugin(name)
       name = translate_plugin_name(name)
       return false if options[:ignored_plugins].include?(name)
-      return false if name =~ /^yard-doc-/
+      return false if /^yard-doc-/.match?(name)
       log.debug "Loading plugin '#{name}'..."
       require name
       true
@@ -172,7 +172,7 @@ module YARD
       result = true
       YARD::GemIndex.each do |gem|
         begin
-          next true unless gem.name =~ YARD_PLUGIN_PREFIX
+          next true unless YARD_PLUGIN_PREFIX.match?(gem.name)
           load_plugin(gem.name)
         rescue Gem::LoadError => e
           tmp = load_plugin_failed(gem.name, e)
@@ -251,7 +251,7 @@ module YARD
     # @return [String] the sanitized and normalized plugin name.
     def self.translate_plugin_name(name)
       name = name.delete('/') # Security sanitization
-      name = "yard-" + name unless name =~ YARD_PLUGIN_PREFIX
+      name = "yard-" + name unless YARD_PLUGIN_PREFIX.match?(name)
       name
     end
 

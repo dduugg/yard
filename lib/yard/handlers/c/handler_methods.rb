@@ -68,7 +68,7 @@ module YARD
             register_visibility(obj, visibility)
             find_method_body(obj, func_name)
             obj.explicit = true
-            add_predicate_return_tag(obj) if name =~ /\?$/
+            add_predicate_return_tag(obj) if /\?$/.match?(name)
           end
         end
 
@@ -107,7 +107,7 @@ module YARD
         end
 
         def handle_constants(type, var_name, const_name, value)
-          return unless type =~ /^const$|^global_const$/
+          return unless /^const$|^global_const$/.match?(type)
           namespace = type == 'global_const' ?
             :root : namespace_for_variable(var_name)
           register ConstantObject.new(namespace, const_name) do |obj|
@@ -178,7 +178,7 @@ module YARD
             name = name.gsub(/::([^:\.#]+?)\Z/, '.\1')
 
             # explicit namespace in override comment
-            path = (name =~ /\.|#/ ? object.path : object.name.to_s)
+            path = (/\.|#/.match?(name) ? object.path : object.name.to_s)
             if path == name || path == name.sub(/new$/, 'initialize') || path == name.sub('.', '#')
               register_docstring(object, override_comment.source, override_comment)
               true

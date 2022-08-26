@@ -619,7 +619,7 @@ module YARD
 
           @ltype = nil
 
-          if str =~ /\A=begin\s+rdoc/i
+          if /\A=begin\s+rdoc/i.match?(str)
             str.sub!(/\A=begin.*\n/, '')
             str.sub!(/^=end.*/m, '')
             Token(TkCOMMENT).set_text(str)
@@ -656,7 +656,7 @@ module YARD
           if @lex_state != EXPR_END && @lex_state != EXPR_CLASS &&
              (@lex_state != EXPR_ARG || @space_seen)
             c = peek(0)
-            tk = identify_here_document if /[-\w\"\'\`]/ =~ c
+            tk = identify_here_document if /[-\w\"\'\`]/.match?(c)
           end
           if !tk
             @lex_state = EXPR_BEG
@@ -738,7 +738,7 @@ module YARD
 
         @OP.def_rule(".") do
           @lex_state = EXPR_BEG
-          if peek(0) =~ /[0-9]/
+          if /[0-9]/.match?(peek(0))
             ungetc
             identify_number("")
           else
@@ -906,7 +906,7 @@ module YARD
         end
 
         @OP.def_rule('@') do
-          if peek(0) =~ /[@\w]/
+          if /[@\w]/.match?(peek(0))
             ungetc
             identify_identifier
           else
@@ -930,9 +930,9 @@ module YARD
 
         @OP.def_rule("") do |op, io|
           printf "MATCH: start %s: %s\n", op, io.inspect if RubyLex.debug?
-          if peek(0) =~ /[0-9]/
+          if /[0-9]/.match?(peek(0))
             t = identify_number("")
-          elsif peek(0) =~ /[\w]/
+          elsif /[\w]/.match?(peek(0))
             t = identify_identifier
           end
           printf "MATCH: end %s: %s\n", op, io.inspect if RubyLex.debug?
@@ -979,7 +979,7 @@ module YARD
 
       def identify_identifier
         token = ""
-        token.concat getc if peek(0) =~ /[$@]/
+        token.concat getc if /[$@]/.match?(peek(0))
         token.concat getc if peek(0) == "@"
 
         while (ch = getc) =~ /\w|_/
@@ -1050,9 +1050,9 @@ module YARD
           @lex_state = EXPR_END
         end
 
-        if token[0, 1] =~ /[A-Z]/
+        if /[A-Z]/.match?(token[0, 1])
           return Token(TkCONSTANT, token).set_text(token)
-        elsif token[token.size - 1, 1] =~ /[!?]/
+        elsif /[!?]/.match?(token[token.size - 1, 1])
           return Token(TkFID, token).set_text(token)
         else
           return Token(TkIDENTIFIER, token).set_text(token)
@@ -1065,7 +1065,7 @@ module YARD
           ch = getc
           indent = true
         end
-        if /['"`]/ =~ ch # '
+        if /['"`]/.match?(ch) # '
           lt = ch
           quoted = ""
           while (c = getc) && c != lt
@@ -1113,7 +1113,7 @@ module YARD
         if lt = PERCENT_LTYPE[ch]
           initial_char += ch
           ch = getc
-        elsif ch =~ /\W/
+        elsif /\W/.match?(ch)
           lt = "\""
         else
           # RubyLex.fail SyntaxError, "unknown type of %string ('#{ch}')"
@@ -1146,7 +1146,7 @@ module YARD
             match = /[0-7_]/
           end
           while ch = getc
-            if ch !~ match
+            if !ch&.match?(match)
               ungetc
               break
             else
@@ -1166,7 +1166,7 @@ module YARD
 
           when allow_point && "."
             type = TkFLOAT
-            if peek(0) !~ /[0-9]/
+            if !/[0-9]/.match?(peek(0))
               ungetc
               break
             end
@@ -1176,7 +1176,7 @@ module YARD
           when allow_e && "e", allow_e && "E"
             str << ch
             type = TkFLOAT
-            if peek(0) =~ /[+-]/
+            if /[+-]/.match?(peek(0))
               str << getc
             end
             allow_e = false
@@ -1223,7 +1223,7 @@ module YARD
             end
           end
           if @ltype == "/"
-            if peek(0) =~ /i|o|n|e|s/
+            if /i|o|n|e|s/.match?(peek(0))
               str << getc
             end
           end

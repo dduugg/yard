@@ -37,14 +37,14 @@ class YARD::Handlers::Ruby::ClassHandler < YARD::Handlers::Ruby::Base
 
         # Allow constants to reference class names
         if ConstantObject === proxy
-          if proxy.value =~ /\A#{NAMESPACEMATCH}\Z/
+          if /\A#{NAMESPACEMATCH}\Z/.match?(proxy.value)
             proxy = Proxy.new(namespace, proxy.value)
           else
             raise YARD::Parser::UndocumentableError, "constant class reference '#{classname}'"
           end
         end
 
-        if classname[0, 1] =~ /[A-Z]/
+        if /[A-Z]/.match?(classname[0, 1])
           register ClassObject.new(namespace, classname) if Proxy === proxy
           parse_block(statement[1], :namespace => proxy, :scope => :class)
         else
