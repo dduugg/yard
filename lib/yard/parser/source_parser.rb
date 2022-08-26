@@ -73,7 +73,7 @@ module YARD
       # Byte order marks for various encodings
       # @since 0.7.0
       ENCODING_BYTE_ORDER_MARKS = {
-        'utf-8' => String.new("\xEF\xBB\xBF"),
+        'utf-8' => +"\xEF\xBB\xBF",
         # Not yet supported
         # 'utf-16be' => "\xFE\xFF",
         # 'utf-16le' => "\xFF\xFE",

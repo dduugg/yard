@@ -168,7 +168,7 @@ module YARD
         end
 
         def include_inherited(full_paths)
-          full_paths.reverse.each do |full_path|
+          full_paths.reverse_each do |full_path|
             include Engine.template!(path, full_path)
           end
         end
@@ -250,7 +250,7 @@ module YARD
       # @yieldparam [Hash] opts any extra options to yield
       # @return [String] the rendered sections joined together
       def run(opts = nil, sects = sections, start_at = 0, break_first = false, &block)
-        out = String.new("")
+        out = +""
         return out if sects.nil?
         sects = sects[start_at..-1] if start_at > 0
         sects = Section.new(nil, sects) unless sects.is_a?(Section)

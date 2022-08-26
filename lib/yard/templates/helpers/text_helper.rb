@@ -6,7 +6,7 @@ module YARD
       module TextHelper
         # @return [String] escapes text
         def h(text)
-          out = String.new("")
+          out = +""
           text = resolve_links(text)
           text = text.split(/\n/)
           text.each_with_index do |line, i|

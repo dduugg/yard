@@ -44,7 +44,7 @@ module YARD
 
         def list_join(list)
           index = 0
-          list.inject(String.new) do |acc, el|
+          list.inject((+'')) do |acc, el|
             acc << el.to_s
             acc << ", " if index < list.size - 2
             acc << " or " if index == list.size - 2

@@ -247,7 +247,7 @@ EOH
         tag.object.files.each do |path, line|
           message.add_location(path, line)
         end
-        tag_label = String.new("@#{tag.tag_name}")
+        tag_label = +"@#{tag.tag_name}"
         tag_label << " [#{tag.types.join(', ')}]" if tag.types
         message.add_comment(tag_label)
       end
@@ -259,7 +259,7 @@ EOH
         tag.object.files.each do |path, line|
           message.add_location(path, line)
         end
-        tag_label = String.new("@#{tag.tag_name}")
+        tag_label = +"@#{tag.tag_name}"
         tag_label << " [#{tag.types.join(', ')}]" if tag.types
         tag_label << " #{tag.name}" if tag.name
         message.add_comment(tag_label)

@@ -214,7 +214,7 @@ end
 # @return [String] HTML output of the classes to be displayed in the
 #    full_list_class template.
 def class_list(root = Registry.root, tree = TreeContext.new)
-  out = String.new("")
+  out = +""
   children = run_verifier(root.children)
   if root == Registry.root
     children += @items.select {|o| o.namespace.is_a?(CodeObjects::Proxy) }

@@ -21,7 +21,7 @@ module YARD
 
         def html_syntax_highlight_ruby_ripper(source)
           resolver = Parser::Ruby::TokenResolver.new(source, object)
-          output = String.new("")
+          output = +""
           resolver.each do |s, token_obj|
             token_obj = clean_token_object(token_obj)
             output << "<span class='tstring'>" if [:tstring_beg, :regexp_beg].include?(s[0])

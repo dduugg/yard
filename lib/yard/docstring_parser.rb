@@ -129,7 +129,7 @@ module YARD
     def parse_content(content)
       content = content.split(/\r?\n/) if content.is_a?(String)
       return '' if !content || content.empty?
-      docstring = String.new("")
+      docstring = +""
 
       indent = content.first[/^\s*/].length
       last_indent = 0

@@ -111,7 +111,7 @@ module YARD
       def encode_path_components(*components)
         components.map! do |p|
           p.gsub(/[^\w\.-]/) do |x|
-            encoded = String.new('_')
+            encoded = +'_'
 
             x.each_byte {|b| encoded << ("%X" % b) }
             encoded

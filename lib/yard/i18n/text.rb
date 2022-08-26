@@ -50,7 +50,7 @@ module YARD
       # @param [Locale] locale the translation target locale.
       # @return [String] translated text.
       def translate(locale)
-        translated_text = String.new("")
+        translated_text = +""
         parse do |part|
           case part[:type]
           when :markup
@@ -74,7 +74,7 @@ module YARD
       private
 
       def parse(&block)
-        paragraph = String.new("")
+        paragraph = +""
         paragraph_start_line = 0
         line_no = 0
         in_header = @options[:have_header]
@@ -109,7 +109,7 @@ module YARD
               paragraph << line
               emit_paragraph_event(paragraph, paragraph_start_line, line_no,
                                    &block)
-              paragraph = String.new("")
+              paragraph = +""
             end
           else
             paragraph_start_line = line_no if paragraph.empty?

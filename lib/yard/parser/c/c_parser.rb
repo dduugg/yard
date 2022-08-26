@@ -138,7 +138,7 @@ module YARD
           line = @line
           type = nextchar == '*' ? :multi : :line
           advance(2)
-          comment = String.new("")
+          comment = +""
           advance_loop do
             comment << char
             if type == :multi

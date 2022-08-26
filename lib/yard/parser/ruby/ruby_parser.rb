@@ -144,7 +144,7 @@ module YARD
         PARSER_EVENT_TABLE.each do |event, arity|
           node_class = AstNode.node_class_for(event)
 
-          if /_new\z/ =~ event.to_s && arity == 0
+          if event.to_s.end_with?('_new') && arity == 0
             module_eval(<<-eof, __FILE__, __LINE__ + 1)
               def on_#{event}(*args)
                 #{node_class}.new(:list, args, :listchar => charno...charno, :listline => lineno..lineno)
@@ -580,7 +580,7 @@ module YARD
         def on_embdoc_beg(text)
           visit_ns_token(:embdoc_beg, text)
           @embdoc_start = charno - text.length
-          @embdoc = String.new("")
+          @embdoc = +""
         end
 
         def on_embdoc(text)

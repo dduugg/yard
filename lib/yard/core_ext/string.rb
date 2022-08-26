@@ -6,16 +6,16 @@ class String
   #
   # @return [Array] an array representing the tokens
   def shell_split
-    out = [String.new("")]
+    out = [+""]
     state = :none
     escape_next = false
-    quote = String.new("")
+    quote = +""
     strip.split(//).each do |char|
       case state
       when :none, :space
         case char
         when /\s/
-          out << String.new("") unless state == :space
+          out << (+"") unless state == :space
           state = :space
           escape_next = false
         when "\\"
@@ -31,7 +31,7 @@ class String
             escape_next = false
           else
             state = char
-            quote = String.new("")
+            quote = +""
           end
         else
           state = :none

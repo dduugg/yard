@@ -7,7 +7,7 @@ class YARD::Handlers::Ruby::MixinHandler < YARD::Handlers::Ruby::Base
 
   process do
     errors = []
-    statement.parameters(false).reverse.each do |mixin|
+    statement.parameters(false).reverse_each do |mixin|
       begin
         process_mixin(mixin)
       rescue YARD::Parser::UndocumentableError => err

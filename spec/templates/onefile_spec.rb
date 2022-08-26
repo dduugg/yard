@@ -34,7 +34,7 @@ RSpec.describe YARD::Templates::Engine.template(:default, :onefile) do
 
   def render
     @files = []
-    @output = String.new("")
+    @output = +""
     YARD.parse_string <<-eof
       class A
         # Foo method

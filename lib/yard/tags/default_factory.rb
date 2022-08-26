@@ -137,8 +137,8 @@ module YARD
 
       def extract_types_and_name_from_text_unstripped(text, opening_types = TYPELIST_OPENING_CHARS, closing_types = TYPELIST_CLOSING_CHARS)
         e = 0
-        before = String.new("")
-        list = [String.new("")]
+        before = +""
+        list = [+""]
         level = 0
         seen_space = false
         i = 0
@@ -164,7 +164,7 @@ module YARD
             break e = i if level == 0
             list.last << c
           elsif c == ',' && level == 1
-            list.push String.new("")
+            list.push (+"")
           elsif c =~ /\S/ && level == 0
             break e = i if seen_space && list == ['']
             before << c

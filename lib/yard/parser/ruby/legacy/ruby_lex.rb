@@ -607,7 +607,7 @@ module YARD
           @ltype = "="
 
           begin
-            line = String.new
+            line = +''
             begin
               ch = getc
               line << ch
@@ -944,7 +944,7 @@ module YARD
 
       def identify_gvar
         @lex_state = EXPR_END
-        str = String.new("$")
+        str = +"$"
 
         tk = case ch = getc
              when %r{[~_*$?!@/\\;,=:<>".]}
@@ -1081,7 +1081,7 @@ module YARD
         end
 
         ltback, @ltype = @ltype, lt
-        reserve = String.new
+        reserve = +''
 
         while ch = getc
           reserve << ch
@@ -1093,7 +1093,7 @@ module YARD
           end
         end
 
-        str = String.new
+        str = +''
         while (l = gets)
           l.chomp!
           l.strip! if indent
@@ -1194,7 +1194,7 @@ module YARD
         @quoted = quoted
         subtype = nil
 
-        str = String.new
+        str = +''
         str << initial_char if initial_char
         str << (opener || quoted)
 
@@ -1240,7 +1240,7 @@ module YARD
       end
 
       def skip_inner_expression
-        res = String.new
+        res = +''
         nest = 0
         while (ch = getc)
           res << ch
@@ -1256,7 +1256,7 @@ module YARD
 
       def identify_comment
         @ltype = "#"
-        comment = String.new("#")
+        comment = +"#"
         while ch = getc
           if ch == "\\"
             ch = getc
@@ -1278,7 +1278,7 @@ module YARD
       end
 
       def read_escape
-        res = String.new
+        res = +''
         case ch = getc
         when /[0-7]/
           ungetc ch

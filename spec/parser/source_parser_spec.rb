@@ -582,7 +582,7 @@ RSpec.describe YARD::Parser::SourceParser do
     Parser::SourceParser::ENCODING_BYTE_ORDER_MARKS.each do |encoding, bom|
       it "understands #{encoding.upcase} BOM" do
         parser = Parser::SourceParser.new
-        src = bom + String.new("class FooBar; end").force_encoding('binary')
+        src = bom + (+"class FooBar; end").force_encoding('binary')
         src.force_encoding('binary')
         expect(File).to receive(:read_binary).with('tmpfile').and_return(src)
         result = parser.parse('tmpfile')

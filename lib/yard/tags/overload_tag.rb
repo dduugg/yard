@@ -43,7 +43,7 @@ module YARD
       def parse_tag(text)
         @signature, text = *text.split(/\r?\n/, 2)
         @signature.strip!
-        text ||= String.new("")
+        text ||= +""
         numspaces = text[/\A(\s*)/, 1].length
         text.gsub!(/^[ \t]{#{numspaces}}/, '')
         text.strip!

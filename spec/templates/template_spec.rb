@@ -62,7 +62,7 @@ RSpec.describe YARD::Templates::Template do
   describe ".load_setup_rb" do
     it "loads setup.rb file for module" do
       expect(File).to receive(:file?).with('/full/path/e/setup.rb').and_return(true)
-      expect(File).to receive(:read).with('/full/path/e/setup.rb').and_return(String.new('def success; end'))
+      expect(File).to receive(:read).with('/full/path/e/setup.rb').and_return((+'def success; end'))
       expect(template(:e).new).to respond_to(:success)
     end
   end
@@ -156,8 +156,8 @@ RSpec.describe YARD::Templates::Template do
     it "replaces {{{__super__}}} with inherited template contents if allow_inherited=true" do
       expect(File).to receive(:file?).with('/full/path/a/abc').twice.and_return(true)
       expect(File).to receive(:file?).with('/full/path/b/abc').and_return(true)
-      expect(IO).to receive(:read).with('/full/path/a/abc').and_return(String.new('foo {{{__super__}}}'))
-      expect(IO).to receive(:read).with('/full/path/b/abc').and_return(String.new('bar'))
+      expect(IO).to receive(:read).with('/full/path/a/abc').and_return((+'foo {{{__super__}}}'))
+      expect(IO).to receive(:read).with('/full/path/b/abc').and_return((+'bar'))
       expect(template(:a).new.file('abc', true)).to eq "foo bar"
     end
 

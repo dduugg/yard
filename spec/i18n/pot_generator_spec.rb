@@ -85,7 +85,7 @@ eoh
 
   describe "Escape" do
     def generate_message_pot(message_id)
-      pot = String.new("")
+      pot = +""
       message = YARD::I18n::Message.new(message_id)
       @generator.send(:generate_message, pot, message)
       pot
